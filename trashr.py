@@ -6,6 +6,7 @@ import signal
 import random
 
 # Import keys from config file
+#TODO add a way to override this config file from the CLI
 CONSUMER_KEY = config.consumerkey
 CONSUMER_SECRET = config.consumersecret
 ACCESS_KEY = config.accesskey
@@ -23,8 +24,7 @@ responses = ["Thanks for the reminder!",
 
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
-        screen_name = status.user.screen_name
-        text = status.text
+        screen_name = status.user.screen_name text = status.text
         # Choose from one of the random responses
         randomstring = random.choice(responses)
         updatestatus = "@" + screen_name + " " + randomstring
@@ -35,6 +35,8 @@ class MyStreamListener(tweepy.StreamListener):
         if status_code == 420:
             return False
 
+#TODO: make this nohup itself so you don't have to launch via
+# `nohup python blah.py`
 if __name__ == "__main__":
     myStreamListener = MyStreamListener()
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
