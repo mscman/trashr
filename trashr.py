@@ -4,6 +4,7 @@
 import tweepy, time, sys, config
 import signal
 import random
+import time
 
 # Import keys from config file
 #TODO add a way to override this config file from the CLI
@@ -24,10 +25,12 @@ responses = ["Thanks for the reminder!",
 
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
-        screen_name = status.user.screen_name text = status.text
+        screen_name = status.user.screen_name 
+        text = status.text
         # Choose from one of the random responses
         randomstring = random.choice(responses)
         updatestatus = "@" + screen_name + " " + randomstring
+        time.sleep(random.randint(1,300))
         print(updatestatus)
         api.update_status(status=updatestatus)
 
